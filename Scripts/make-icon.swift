@@ -15,8 +15,14 @@ image.lockFocus()
 let ctx = NSGraphicsContext.current!.cgContext
 
 // ---- background: deep black squircle with a soft radial lift ------------
-let radius = size * 0.2237
-let squircle = NSBezierPath(roundedRect: NSRect(x: 0, y: 0, width: size, height: size),
+// Leave ~10% transparent padding around the squircle: macOS uses that margin
+// for the standard drop shadow and tile spacing. Without it the icon renders
+// edge-to-edge and looks larger than other apps in Launchpad.
+let pad = size * 0.10
+let squircleSize = size - 2 * pad
+let radius = squircleSize * 0.2237
+let squircle = NSBezierPath(roundedRect: NSRect(x: pad, y: pad,
+                                                width: squircleSize, height: squircleSize),
                             xRadius: radius, yRadius: radius)
 NSColor.black.setFill()
 squircle.fill()
